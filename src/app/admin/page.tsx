@@ -96,6 +96,8 @@ export default async function AdminPage({
             <thead className="bg-gray-50 text-gray-600 text-sm uppercase">
               <tr>
                 <th className="p-4">Tarih</th>
+                <th className="p-4">İsim</th>
+                <th className="p-4">Kan Grubu</th>
                 <th className="p-4">Skor</th>
                 <th className="p-4">Profil Sonucu</th>
               </tr>
@@ -103,7 +105,7 @@ export default async function AdminPage({
             <tbody>
               {recentTests.length === 0 ? (
                 <tr>
-                  <td colSpan={3} className="p-4 text-center text-gray-500">Henüz test çözen yok.</td>
+                  <td colSpan={5} className="p-4 text-center text-gray-500">Henüz test çözen yok.</td>
                 </tr>
               ) : (
                 recentTests.map((t) => (
@@ -111,6 +113,8 @@ export default async function AdminPage({
                     <td className="p-4 text-gray-600">
                       {new Date(t.createdAt).toLocaleString("tr-TR")}
                     </td>
+                    <td className="p-4 font-semibold text-gray-800">{t.name}</td>
+                    <td className="p-4 text-red-600 font-bold">{t.bloodType}</td>
                     <td className="p-4 font-bold text-primary">{t.score}</td>
                     <td className="p-4">
                       <span className="bg-secondary/10 text-secondary px-3 py-1 rounded-full text-sm font-semibold">

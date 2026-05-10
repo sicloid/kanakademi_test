@@ -3,9 +3,9 @@ import { prisma } from "@/lib/prisma";
 
 export async function POST(req: Request) {
   try {
-    const { score, profile } = await req.json();
+    const { score, profile, name, bloodType } = await req.json();
 
-    if (score === undefined || !profile) {
+    if (score === undefined || !profile || !name || !bloodType) {
       return NextResponse.json(
         { error: "Eksik parametre" },
         { status: 400 }
@@ -16,6 +16,8 @@ export async function POST(req: Request) {
       data: {
         score,
         profile,
+        name,
+        bloodType,
       },
     });
 
