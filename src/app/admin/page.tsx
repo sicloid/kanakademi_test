@@ -2,12 +2,17 @@ import { cookies } from "next/headers";
 import { loginAdmin } from "./actions";
 import { prisma } from "@/lib/prisma";
 
-export default async function AdminPage() {
+export default async function AdminPage({
+  searchParams,
+}: {
+  searchParams: { [key: string]: string | string[] | undefined }
+}) {
   const cookieStore = cookies();
   const token = cookieStore.get("admin_token")?.value;
   const isAuthenticated = token === process.env.ADMIN_PASSWORD;
 
   if (!isAuthenticated) {
+    const error = searchParams?.error === "incorrect";
     return (
       <div className="min-h-screen flex items-center justify-center bg-[#f4f6f9]">
         <div className="bg-white p-8 rounded-2xl shadow-xl w-full max-w-sm">
@@ -17,6 +22,11 @@ export default async function AdminPage() {
             className="h-10 mx-auto mb-8"
           />
           <h1 className="text-xl font-bold text-center mb-6 text-secondary">Admin Girişi</h1>
+          {error && (
+            <div className="bg-red-50 text-red-600 p-3 rounded-lg text-sm mb-4 text-center font-medium">
+              Hatalı şifre, lütfen tekrar deneyin.
+            </div>
+          )}
           <form action={loginAdmin} className="flex flex-col gap-4">
             <input
               type="password"
